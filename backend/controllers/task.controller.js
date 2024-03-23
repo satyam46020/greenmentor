@@ -15,7 +15,31 @@ const createTask = async (req, res) => {
 // get
 const getAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find();
+        const { page = 1, limit = 10, sort, order, search } = req.query;
+        let query = {};
+
+        // Handle search
+        if (search) {
+            query = {
+                $or: [
+                    { title: { $regex: search, $options: 'i' } }, 
+                    { description: { $regex: search, $options: 'i' } } 
+                ]
+            };
+        }
+
+        // Handle sorting
+        let sortCriteria = {};
+        if (sort && (order === 'asc' || order === 'desc')) {
+            sortCriteria[sort] = order === 'asc' ? 1 : -1;
+        }
+
+        // Pagination
+        const tasks = await Task.find(query)
+            .sort(sortCriteria)
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit));
+
         res.json(tasks);
     } catch (error) {
         res.status(500).json({ message: error.message });

@@ -13,12 +13,10 @@ const Task = () => {
   const { token, isAuth } = useSelector(state => state.loginReducer);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedtask, setSelectedtask] = useState(null);
-  const [gender, setGender] = useState('');
-  const [category, setCategory] = useState('');
   const [sort, setSort] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(3);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,8 +37,10 @@ const Task = () => {
     setIsModalOpen(true);
   };
 
-  const handlePageChange = newPage => {
-    setPage(newPage);
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 ) {
+      setPage(newPage);
+    }
   };
 
   const handleLogout = () => {
@@ -63,14 +63,14 @@ const Task = () => {
 
       <Flex mb="4" alignItems="center">
         <Select
-          placeholder="Sort By"
           value={sort}
           onChange={e => setSort(e.target.value)}
           mr="4"
           width="33%"
         >
-          <option value="asc">Price - Low to High</option>
-          <option value="desc">Price - High to Low</option>
+          <option value="">Sort By</option>
+          <option value="asc">Title - A to Z</option>
+          <option value="desc">Title - Z to A</option>
         </Select>
         <Input
           placeholder="Search tasks..."
@@ -91,16 +91,21 @@ const Task = () => {
         token={token}
       />
 
-      <Flex justify="center" mt="4">
+      <Flex justify="center" mt="4" align="center">
         <Button
           onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
           mr="2"
+          disabled={page <= 1}
         >
           Prev
         </Button>
-        <Text>{page}</Text>
-        <Button onClick={() => handlePageChange(page + 1)} ml="2">
+        <Text fontSize="lg" mx="2">
+          {page}
+        </Text>
+        <Button 
+          onClick={() => handlePageChange(page + 1)} 
+          ml="2"
+        >
           Next
         </Button>
       </Flex>

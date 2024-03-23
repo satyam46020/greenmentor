@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, Button, Box, IconButton } from '@chakra-ui/react'; 
+import { Table, Thead, Tbody, Tr, Th, Td, IconButton } from '@chakra-ui/react'; 
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 
 const TaskTable = ({ tasks, onEdit, onDelete }) => {
