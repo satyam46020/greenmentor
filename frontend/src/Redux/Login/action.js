@@ -5,7 +5,7 @@ export const login=(details)=>{
     return async (dispatch)=>{
         try {
             dispatch({type:LOGIN_REQUEST})
-            let res=await axios.post(`http://localhost:5000/auth/login`,details)
+            let res=await axios.post(`https://greenmentor-l03o.onrender.com/auth/login`,details)
             console.log(res.data)
             dispatch({type:LOGIN_SUCCESS,payload:{token:res.data.token,name:res.data.name}})
         } catch (error) {

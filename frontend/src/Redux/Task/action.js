@@ -6,7 +6,7 @@ export const fetchtasks = (token, sort, search, page, limit) => {
     dispatch({ type: ActionTypes.FETCH_TASKS_START });
     
     try {
-      let url = `http://localhost:5000/task?page=${page}&limit=${limit}`;
+      let url = `https://greenmentor-l03o.onrender.com/task?page=${page}&limit=${limit}`;
 
       if (sort) {
         url += `&sort=title&order=${sort}`;
@@ -38,7 +38,7 @@ export const fetchtasks = (token, sort, search, page, limit) => {
 export const addtask = (taskData, token) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post('http://localhost:5000/task', taskData, {
+      const response = await axios.post('https://greenmentor-l03o.onrender.com/task', taskData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -57,7 +57,7 @@ export const addtask = (taskData, token) => {
 export const updatetask = (taskData, token) => {
   return async (dispatch) => {
     try {
-      const response = await axios.patch(`http://localhost:5000/task/${taskData._id}`, taskData, {
+      const response = await axios.patch(`https://greenmentor-l03o.onrender.com/task/${taskData._id}`, taskData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -76,7 +76,7 @@ export const updatetask = (taskData, token) => {
 export const deletetask = (taskId, token) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`http://localhost:5000/task/${taskId}`, {
+      await axios.delete(`https://greenmentor-l03o.onrender.com/task/${taskId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -97,7 +97,7 @@ export const gettaskById = (taskId, token) => {
     dispatch({ type: ActionTypes.GET_TASK_BY_ID_START });
 
     try {
-      const response = await axios.get(`http://localhost:5000/task/${taskId}`, {
+      const response = await axios.get(`https://greenmentor-l03o.onrender.com/task/${taskId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
