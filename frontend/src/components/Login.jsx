@@ -12,6 +12,8 @@ import {
   Flex,
   Center,
   Text,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 
 const Login = () => {
@@ -21,11 +23,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [loginError, setLoginError] = useState(false); // State to track login error
   const isAuth = useSelector((store) => store.loginReducer.isAuth);
 
   useEffect(() => {
     if (isAuth) {
-      navigate('/task');
+      navigate("/task");
     }
   }, [isAuth, navigate]);
 
@@ -37,13 +40,24 @@ const Login = () => {
       return;
     }
 
-    dispatch(login({ email, password }));
+    dispatch(login({ email, password }))
+        // If login is successful, isAuth will be true
+        if (!isAuth) {
+          // If login fails, set loginError to true
+          setLoginError(true);
+        }
   };
 
   return (
     <Flex align="center" justify="center" h="100vh">
       <Center>
-        <Box p={10} maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden">
+        <Box
+          p={10}
+          maxW="md"
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+        >
           <Heading as="h2" size="lg" mb={4}>
             Login
           </Heading>
@@ -59,7 +73,7 @@ const Login = () => {
                 }}
                 placeholder="Enter your email"
                 size="md"
-              />
+                />
             </FormControl>
             <FormControl mb={6} isInvalid={passwordError}>
               <FormLabel>Password</FormLabel>
@@ -72,12 +86,18 @@ const Login = () => {
                 }}
                 placeholder="Enter your password"
                 size="md"
-              />
+                />
             </FormControl>
             <Button type="submit" colorScheme="teal" size="md" width="100%">
               Log In
             </Button>
-          </form>
+          </form >
+            {loginError && ( 
+              <Alert status="error" mb={4}>
+                <AlertIcon />
+                Invalid credentials. Please try again.
+              </Alert>
+            )}
           <Flex justify="center" mt={4}>
             <Text>Don't have an account? </Text>
             <Button as={Link} to="/register" variant="link" colorScheme="blue" ml={1}>

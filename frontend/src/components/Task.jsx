@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchtasks, deletetask } from '../Redux/Task/action';
-import { Box, Button, Heading, Flex, Input, Select, Text } from '@chakra-ui/react';
+import { Box, Button, Heading, Flex, Input, Select, Text, background } from '@chakra-ui/react';
 import TaskTable from './TaskTable';
 import TaskModal from './TaskModal';
 import { useNavigate } from 'react-router';
@@ -10,7 +10,7 @@ import { logout } from '../Redux/Login/action';
 const Task = () => {
   const dispatch = useDispatch();
   const tasks = useSelector(state => state.taskReducer.tasks);
-  const { token, isAuth } = useSelector(state => state.loginReducer);
+  const { token, isAuth, name } = useSelector(state => state.loginReducer);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedtask, setSelectedtask] = useState(null);
   const [sort, setSort] = useState('');
@@ -55,9 +55,12 @@ const Task = () => {
           Task Management
         </Heading>
         {isAuth && (
-          <Button onClick={handleLogout} colorScheme="red">
-            Logout
-          </Button>
+          <Flex alignItems="center">
+            <Text mr="4" background='teal' color="white" border={'1px solid Teal'} borderRadius="90%" p={2.5}>{name}</Text>
+            <Button onClick={handleLogout} colorScheme="red">
+              Logout
+            </Button>
+          </Flex>
         )}
       </Flex>
 

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, VStack, FormControl, FormLabel, Input, Textarea, Button } from "@chakra-ui/react";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, VStack, FormControl, FormLabel, Input, Textarea, Button, FormErrorMessage } from "@chakra-ui/react";
 import { useDispatch } from 'react-redux';
 import { addtask, updatetask } from '../Redux/Task/action';
 
 const TaskModal = ({ isOpen, onClose, selectedtask, token }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+  });
+  const [formErrors, setFormErrors] = useState({
     title: '',
     description: '',
   });
@@ -30,7 +34,10 @@ const TaskModal = ({ isOpen, onClose, selectedtask, token }) => {
 
   const handleSubmit = () => {
     if (!formData.title.trim() || !formData.description.trim()) {
-      alert("All fields are required.");
+      setFormErrors({
+        title: !formData.title.trim() ? 'Title is required' : '',
+        description: !formData.description.trim() ? 'Description is required' : '',
+      });
       return;
     }
 
@@ -50,13 +57,15 @@ const TaskModal = ({ isOpen, onClose, selectedtask, token }) => {
         <ModalCloseButton />
         <ModalBody>
           <VStack spacing={4}>
-            <FormControl id="title">
+            <FormControl id="title" isInvalid={formErrors.title}>
               <FormLabel>Task Title<span style={{ color: 'red' }}>*</span></FormLabel>
               <Input type="text" placeholder="Enter task title" name="title" value={formData.title} onChange={handleChange} />
+              <FormErrorMessage>{formErrors.title}</FormErrorMessage>
             </FormControl>
-            <FormControl id="description">
+            <FormControl id="description" isInvalid={formErrors.description}>
               <FormLabel>Task Description<span style={{ color: 'red' }}>*</span></FormLabel>
               <Textarea placeholder="Enter task description" name="description" value={formData.description} onChange={handleChange} />
+              <FormErrorMessage>{formErrors.description}</FormErrorMessage>
             </FormControl>
           </VStack>
         </ModalBody>

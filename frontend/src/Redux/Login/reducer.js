@@ -6,11 +6,11 @@ const initialState = {
   token: "",
   isLoading: false,
   isError: false,
-  user:{}
+  user:""
 };
 
 const loginReducer = (state = initialState,{type,payload}) => {
-  console.log(state)
+  // console.log(payload)
   switch(type){
     case LOGIN_REQUEST:
       return{
@@ -18,7 +18,7 @@ const loginReducer = (state = initialState,{type,payload}) => {
         token: "",
         isLoading: true,
         isError: false,
-        user:{}
+        name:""
       }
       case LOGIN_SUCCESS:
       return{
@@ -26,7 +26,7 @@ const loginReducer = (state = initialState,{type,payload}) => {
         token: payload.token,
         isLoading: false,
         isError: false,
-        user:payload.avatar
+        name:payload.name
       }
       case LOGIN_FAILURE:
       return{
@@ -34,7 +34,7 @@ const loginReducer = (state = initialState,{type,payload}) => {
         token: "",
         isLoading: false,
         isError: true,
-        user:{}
+        name:""
       }
       case LOGOUT:
       return{
@@ -42,7 +42,7 @@ const loginReducer = (state = initialState,{type,payload}) => {
         token: "",
         isLoading: false,
         isError: true,
-        user:{}
+        name:""
       }
     default:
       return state;

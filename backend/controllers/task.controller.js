@@ -4,7 +4,8 @@ const Task = require('../models/Task.model');
 const createTask = async (req, res) => {
     try {
         const { title, description } = req.body;
-        const task = new Task({ title, description });
+        const { userId } = req;
+        const task = new Task({ title, description, userId });
         await task.save();
         res.status(201).json(task);
     } catch (error) {
@@ -33,6 +34,8 @@ const getAllTasks = async (req, res) => {
         if (sort && (order === 'asc' || order === 'desc')) {
             sortCriteria[sort] = order === 'asc' ? 1 : -1;
         }
+
+        query.userId = req.userId;
 
         // Pagination
         const tasks = await Task.find(query)

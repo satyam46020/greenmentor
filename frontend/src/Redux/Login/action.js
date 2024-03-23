@@ -7,7 +7,7 @@ export const login=(details)=>{
             dispatch({type:LOGIN_REQUEST})
             let res=await axios.post(`http://localhost:5000/auth/login`,details)
             console.log(res.data)
-            dispatch({type:LOGIN_SUCCESS,payload:{token:res.data.token,avatar:res.data.avatar}})
+            dispatch({type:LOGIN_SUCCESS,payload:{token:res.data.token,name:res.data.name}})
         } catch (error) {
             dispatch({type:LOGIN_FAILURE})
             
