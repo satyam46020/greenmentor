@@ -35,7 +35,7 @@ npm run start
 
 ## Features
 
-1. "Register:* User can register them using name, email and password.
+1. *Register:* User can register them using name, email and password.
 
 2. *Log in:* User can Login to their profile using their credentials used during Register.
 
@@ -67,12 +67,21 @@ npm run start
   - Node.js: Employs Express.js for backend server implementation, handling CRUD operation in tasks.
   - Database: Utilizes MongoDB for storing credentials of user and their respective tasks.
 
-## Scrreshots
+## Screenshots
 
+**Login Page**
 ![Login Page](/frontend/src/images/1.png)
+
+**Signup Page**
 ![Signup Page](/frontend/src/images/2.png)
+
+**Profile**
 ![Profile](/frontend/src/images/3.png)
+
+**Task Create Modal**
 ![Task Create Modal](/frontend/src/images/4.png)
+
+**Task Update Modal**
 ![Task Update Modal](/frontend/src/images/5.png)
 
 
