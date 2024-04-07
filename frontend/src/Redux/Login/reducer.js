@@ -10,7 +10,8 @@ const initialState = {
 };
 
 const loginReducer = (state = initialState,{type,payload}) => {
-  // console.log(payload)
+
+  console.log(state)
   switch(type){
     case LOGIN_REQUEST:
       return{

@@ -30,6 +30,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuth) {
+      localStorage.setItem("isAuth",JSON.stringify(isAuth));
       navigate("/task");
     }
   }, [isAuth, navigate]);

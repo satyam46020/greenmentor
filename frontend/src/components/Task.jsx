@@ -12,7 +12,8 @@ const Task = () => {
   const tasks = useSelector(state => state.taskReducer.tasks);
 
   const token = JSON.parse(localStorage.getItem("token"));
-  const { isAuth, name } = useSelector(state => state.loginReducer);
+  const isAuth = JSON.parse(localStorage.getItem("isAuth"));
+  const name = JSON.parse(localStorage.getItem("name"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedtask, setSelectedtask] = useState(null);
   const [sort, setSort] = useState('');
