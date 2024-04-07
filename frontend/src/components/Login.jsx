@@ -14,6 +14,7 @@ import {
   Text,
   Alert,
   AlertIcon,
+  Spinner
 } from "@chakra-ui/react";
 
 const Login = () => {
@@ -23,7 +24,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [loginError, setLoginError] = useState(false); // State to track login error
+  const [loginError, setLoginError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const isAuth = useSelector((store) => store.loginReducer.isAuth);
 
   useEffect(() => {
@@ -32,20 +34,23 @@ const Login = () => {
     }
   }, [isAuth, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setEmailError(!email);
       setPasswordError(!password);
       return;
     }
+    
+    setLoading(true);
 
-    dispatch(login({ email, password }))
-        // If login is successful, isAuth will be true
-        if (!isAuth) {
-          // If login fails, set loginError to true
-          setLoginError(true);
-        }
+    try {
+      await dispatch(login({ email, password }));
+    } catch (error) {
+      setLoginError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -73,7 +78,7 @@ const Login = () => {
                 }}
                 placeholder="Enter your email"
                 size="md"
-                />
+              />
             </FormControl>
             <FormControl mb={6} isInvalid={passwordError}>
               <FormLabel>Password</FormLabel>
@@ -86,18 +91,18 @@ const Login = () => {
                 }}
                 placeholder="Enter your password"
                 size="md"
-                />
+              />
             </FormControl>
-            <Button type="submit" colorScheme="teal" size="md" width="100%">
-              Log In
+            <Button type="submit" colorScheme="teal" size="md" width="100%" disabled={loading}>
+              {loading ? <Spinner size="sm" color="white" /> : "Log In"}
             </Button>
-          </form >
-            {/* {loginError && ( 
-              <Alert status="error" mb={4}>
-                <AlertIcon />
-                Invalid credentials. Please try again.
-              </Alert>
-            )} */}
+          </form>
+          {loginError && (
+            <Alert status="error" mb={4}>
+              <AlertIcon />
+              Invalid credentials. Please try again.
+            </Alert>
+          )}
           <Flex justify="center" mt={4}>
             <Text>Don't have an account? </Text>
             <Button as={Link} to="/register" variant="link" colorScheme="blue" ml={1}>

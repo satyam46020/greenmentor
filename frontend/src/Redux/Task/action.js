@@ -6,14 +6,14 @@ export const fetchtasks = (token, sort, search, page, limit) => {
     dispatch({ type: ActionTypes.FETCH_TASKS_START });
     
     try {
-      let url = `https://greenmentor-l03o.onrender.com/task?page=${page}&limit=${limit}`;
+      let url = `https://greenmentor-l03o.onrender.com/task`;
 
       if (sort) {
-        url += `&sort=title&order=${sort}`;
+        url += `?sort=title&order=${sort}`;
       }
 
       if (search) {
-        url += `&search=${search}`;
+        url += `?search=${search}`;
       }
 
       const response = await axios.get(url, {
@@ -21,6 +21,7 @@ export const fetchtasks = (token, sort, search, page, limit) => {
           Authorization: `Bearer ${token}`
         }
       });
+      console.log(response)
       
       dispatch({
         type: ActionTypes.FETCH_TASKS_SUCCESS,

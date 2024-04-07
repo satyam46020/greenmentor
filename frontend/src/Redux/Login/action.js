@@ -6,7 +6,8 @@ export const login=(details)=>{
         try {
             dispatch({type:LOGIN_REQUEST})
             let res=await axios.post(`https://greenmentor-l03o.onrender.com/auth/login`,details)
-            console.log(res.data)
+            console.log(res)
+            localStorage.setItem("token",JSON.stringify(res.data.token));
             dispatch({type:LOGIN_SUCCESS,payload:{token:res.data.token,name:res.data.name}})
         } catch (error) {
             dispatch({type:LOGIN_FAILURE})
@@ -15,6 +16,8 @@ export const login=(details)=>{
     }
 }
 export const logout = () => {
+  localStorage.setItem("token","");
+
   return {
     type: LOGOUT,
   };

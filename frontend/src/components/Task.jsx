@@ -10,18 +10,18 @@ import { logout } from '../Redux/Login/action';
 const Task = () => {
   const dispatch = useDispatch();
   const tasks = useSelector(state => state.taskReducer.tasks);
-  const { token, isAuth, name } = useSelector(state => state.loginReducer);
+
+  const token = JSON.parse(localStorage.getItem("token"));
+  const { isAuth, name } = useSelector(state => state.loginReducer);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedtask, setSelectedtask] = useState(null);
   const [sort, setSort] = useState('');
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchtasks(token, sort, search, page, limit));
-  }, [dispatch, token, sort, search, page, limit]);
+    dispatch(fetchtasks(token, sort, search));
+  }, [dispatch, token, sort, search]);
 
   const handleDeletetask = taskId => {
     dispatch(deletetask(taskId, token));
@@ -35,12 +35,6 @@ const Task = () => {
   const openAddModal = () => {
     setSelectedtask(null);
     setIsModalOpen(true);
-  };
-
-  const handlePageChange = (newPage) => {
-    if (newPage > 0 ) {
-      setPage(newPage);
-    }
   };
 
   const handleLogout = () => {
@@ -93,25 +87,6 @@ const Task = () => {
         onDelete={handleDeletetask}
         token={token}
       />
-
-      <Flex justify="center" mt="4" align="center">
-        <Button
-          onClick={() => handlePageChange(page - 1)}
-          mr="2"
-          disabled={page <= 1}
-        >
-          Prev
-        </Button>
-        <Text fontSize="lg" mx="2">
-          {page}
-        </Text>
-        <Button 
-          onClick={() => handlePageChange(page + 1)} 
-          ml="2"
-        >
-          Next
-        </Button>
-      </Flex>
 
       {isModalOpen && (
         <TaskModal
