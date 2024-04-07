@@ -13,6 +13,7 @@ import {
   Center,
   Text,
   FormErrorMessage,
+  Spinner // Import Spinner component from Chakra UI
 } from "@chakra-ui/react";
 
 const Register = () => {
@@ -24,9 +25,10 @@ const Register = () => {
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false); // State to track loading state
   const isAuth = useSelector((store) => store.signupReducer.isAuth);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
 
@@ -52,7 +54,12 @@ const Register = () => {
     }
 
     if (isValid) {
-      dispatch(signup({ name, email, password }));
+      setLoading(true); // Set loading state to true when starting registration request
+      try {
+        await dispatch(signup({ name, email, password }));
+      } finally {
+        setLoading(false); // Set loading state to false regardless of success or failure
+      }
     }
   };
 
@@ -111,8 +118,8 @@ const Register = () => {
               />
               <FormErrorMessage>{passwordError}</FormErrorMessage>
             </FormControl>
-            <Button type="submit" colorScheme="teal" size="md" width="100%">
-              Sign Up
+            <Button type="submit" colorScheme="teal" size="md" width="100%" disabled={loading}>
+              {loading ? <Spinner size="sm" color="white" /> : "Sign Up"} {/* Render spinner when loading */}
             </Button>
           </form>
           <Flex justify="center" mt={4}>
