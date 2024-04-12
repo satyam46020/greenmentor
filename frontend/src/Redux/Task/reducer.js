@@ -40,14 +40,14 @@ const taskReducer = (state = initialState, action) => {
       return {
         ...state,
         tasks: state.tasks.map((task) =>
-          task.id === action.payload.id ? action.payload : task
+          task._id === action.payload._id ? action.payload : task
         ),
       };
 
     case ActionTypes.DELETE_TASK_SUCCESS:
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task.id !== action.payload.id),
+        tasks: state.tasks.filter((task) => task._id !== action.payload._id),
       };
 
     case ActionTypes.GET_TASK_BY_ID_SUCCESS:

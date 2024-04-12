@@ -18,12 +18,25 @@ const Task = () => {
   const [selectedtask, setSelectedtask] = useState(null);
   const [sort, setSort] = useState('');
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage]=useState(1);
+  const [limit, setLimit] =useState(3);
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchtasks(token, sort, search));
   }, [dispatch, token, sort, search]);
 
+  const lastIndex=currentPage*limit;
+  const firstIndex=lastIndex-limit;
+  
+  const currentTasks=tasks.slice(firstIndex,lastIndex);
+
+  const onPrev=()=>{
+    setCurrentPage(currentPage-1);
+  }
+  const onNext=()=>{
+    setCurrentPage(currentPage+1);
+  }
   const handleDeletetask = taskId => {
     dispatch(deletetask(taskId, token));
   };
@@ -83,11 +96,17 @@ const Task = () => {
       </Button>
 
       <TaskTable
-        tasks={tasks}
+        tasks={currentTasks}
         onEdit={openEditModal}
         onDelete={handleDeletetask}
         token={token}
       />
+
+      <Flex>
+      <Button onClick={onPrev}>-</Button>
+      <Text>{currentPage}</Text>
+      <Button onClick={onNext}>+</Button>
+      </Flex>
 
       {isModalOpen && (
         <TaskModal
